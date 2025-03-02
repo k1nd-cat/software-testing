@@ -185,6 +185,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  parameterized_test:
+    dependency: "direct main"
+    description:
+      name: parameterized_test
+      sha256: "6d3687e41f9de695262ecc314030cd210872692182c233ad71d60557bacd3c9f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   path:
     dependency: transitive
     description:

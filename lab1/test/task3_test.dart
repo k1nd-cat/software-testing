@@ -1,4 +1,5 @@
 import 'package:lab1/task3.dart';
+import 'package:parameterized_test/parameterized_test.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -7,6 +8,23 @@ void main() {
     final captain = Captain('Олег', 53);
     final human1 = Human('Андрей', 16);
     final human2 = Human('Алиса', 15);
+
+    parameterizedTest('Обхват охранником людей', [
+      [
+        securityGuard.gradAroundTheNeck(human1),
+        'Охранник обхватил за шею Андрей.'
+      ],
+      [
+        securityGuard.gradAroundTheNeck(human1, human2),
+        'Охранник обхватил за шею Андрей и Алиса.'
+      ],
+      [
+        () => securityGuard.gradAroundTheNeck(human1, human1),
+        throwsArgumentError
+      ],
+    ], (dynamic action, dynamic result) {
+      expect(action, result);
+    });
 
     group('Тестирование поведения охранника', () {
       test('Обхват охранником за шею одного персонажа', () {
@@ -131,7 +149,8 @@ void main() {
       actual += '${building.charactersExit([securityGuard])} ';
       actual += '${captain.doPurr(Emotion.thoughtfully)} ';
       actual += captain.leafBook();
-      final expected = 'Охранник обхватил за шею Андрей и Алиса. Охранник почтительно поклонился Олег. Охранник выволок Андрей и Алиса с мостика, не обращая внимание на их сопротивление. Стальная дверь закрылась. Капитан снова остался один. Капитан задумчиво промурлыкал что-то. Капитан полистал свою книжку со стихами.';
+      final expected =
+          'Охранник обхватил за шею Андрей и Алиса. Охранник почтительно поклонился Олег. Охранник выволок Андрей и Алиса с мостика, не обращая внимание на их сопротивление. Стальная дверь закрылась. Капитан снова остался один. Капитан задумчиво промурлыкал что-то. Капитан полистал свою книжку со стихами.';
       expect(actual, expected);
     });
   });
