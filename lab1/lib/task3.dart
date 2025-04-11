@@ -64,15 +64,17 @@ class Building {
   Building(this.name, this.charactersInside);
 
   String charactersExit(List<Human> characters) {
-    if (!characters
-        .every((character) => charactersInside.contains(character))) {
+    if (!characters.every(charactersInside.contains)) {
       throw ArgumentError(
           'Из $name не могут выйти персонажи, которых изначально там не было');
     }
 
-    charactersInside.removeWhere((character) => characters.contains(character));
+    charactersInside.removeWhere(characters.contains);
     if (charactersInside.length == 1) {
       var lastCharacter = '';
+      if (charactersInside.first !is Captain) {
+        
+      }
       switch (charactersInside.first) {
         case Captain _:
           lastCharacter = 'Капитан';
