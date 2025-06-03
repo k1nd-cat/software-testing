@@ -1,0 +1,88 @@
+@startuml
+left to right direction
+
+actor "Пользователь" as User
+actor "Гость" as Guest
+
+Guest --|> User
+
+rectangle "Habr.com" {
+        (Найти статью) as find_article
+        (Найти статью по названию) as search_articles_by_title
+        (Найти статью в ленте) as search_articles_in_feed
+        (Выбрать статью из лучших) as find_article_from_best
+        (Открыть статью) as open_article
+        (Сохранить / удалить статью) as rate_article
+
+
+        find_article .> search_articles_by_title : include
+        find_article .> search_articles_in_feed : include
+        find_article .> find_article_from_best : include
+        search_articles_by_title -- open_article
+        search_articles_in_feed -- open_article
+        find_article_from_best -- open_article
+        rate_article .> open_article : extend
+
+        note bottom of rate_article
+          Доступно только пользователю
+        end note
+        
+        ' Позиционирование внутри пакета
+        find_article -[hidden]-> search_articles_by_title
+        find_article -[hidden]-> find_article_from_best
+        find_article -[hidden]-> search_articles_in_feed
+        'search_articles_by_title -[hidden]-> open_article
+        'search_articles_in_feed -[hidden]-> open_article
+        'find_article_from_best -[hidden]-> open_article
+        open_article -[hidden]-> rate_article
+
+        (Перейти на Хабр карьера) as switch_to_habr_career
+        (Найти вакансию) as find_job
+        (Открыть интересующую вакансию) as open_job_cart
+        
+        switch_to_habr_career <. find_job : extend
+        find_job <. open_job_cart : extend
+        
+        ' Позиционирование внутри пакета
+        switch_to_habr_career -[hidden]-> find_job
+        find_job -[hidden]-> open_job_cart
+
+        (Перейти на вопросы и ответы) as switch_to_FQ
+        (Посмотреть пользователей) as look_at_users
+        (Найти конкретного пользователя) as find_user
+        (Найти вопрос по тегу) as find_question_by_tag
+        (Открыть вопрос) as open_question
+        
+        switch_to_FQ <. look_at_users : extend
+        switch_to_FQ <. find_question_by_tag : extend
+        look_at_users <. find_user : extend
+        find_question_by_tag <. open_question : extend
+        
+        ' Позиционирование внутри пакета
+        switch_to_FQ -[hidden]-> look_at_users
+        switch_to_FQ -[hidden]-> find_question_by_tag
+        look_at_users -[hidden]-> find_user
+        find_question_by_tag -[hidden]-> open_question
+
+        (Перейти на Хабр курсы) as switch_to_courses
+        (Открыть интересующий курс) as find_course
+        
+        switch_to_courses <. find_course : extend
+        
+        ' Позиционирование внутри пакета
+        switch_to_courses -[hidden]-> find_course
+
+        (Написать статью) as write_article
+        note "Доступно только пользователю" as Note2
+        write_article .. Note2
+}
+
+' Подключение актора к основным use case’ам
+User -- switch_to_habr_career
+User -- switch_to_FQ
+User -- switch_to_courses
+User -- write_article
+User -- find_article
+
+
+@enduml
